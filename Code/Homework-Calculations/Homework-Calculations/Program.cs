@@ -17,7 +17,7 @@ namespace Homework01_Calculations
 			CreateHistogram(text, "original.png");
 			string shifted = ShiftCipher(text, 7);
 			CreateHistogram(shifted, "shifted.png");
-			string permuted = PermutationCipher(text);
+			string permuted = PermutationCipher(text, [7, 2, 5, 3, 8, 4, 1, 6]);
 			CreateHistogram(permuted, "permuted.png");
 			string vigenere = VigenereCipher(text, "tolkien");
 			CreateHistogram(vigenere, "vigenere.png");
@@ -53,7 +53,7 @@ namespace Homework01_Calculations
 
 		private static string ShiftCipher(string message, int shift)
 		{
-			StringBuilder result = new StringBuilder(message.Length);
+			StringBuilder result = new(message.Length);
 
 			foreach (char c in message)
 			{
@@ -64,14 +64,36 @@ namespace Homework01_Calculations
 			return result.ToString();
 		}
 
-		private static string PermutationCipher(string message)
+		private static string PermutationCipher(string message, int[] key)
 		{
+			int keylength = key.Length;
+			StringBuilder result = new(message.Length);
+			int i = 0;
+			while (message.Length <= keylength * i)
+			{
+				for (int j = 0; j < keylength; j++)
+				{
+					char c = message.Length < key[j] + keylength * i ? message[key[j] + keylength * i] : 'X';
+					result.Append(c);
+				}
+			}
 
+			return result.ToString();
 		}
 
 		private static string VigenereCipher(string message, string password)
 		{
+			StringBuilder result = new(message.Length);
 
+			for(int i = 0; i < password.Length; i++)
+			{
+				char c = message[i];
+				int shift = password[i % password.Length] - 'a';
+				char shifted = (char)((c - 'a' + shift) % 26 + 'a');
+				result.Append(shifted);
+			}
+
+			return result.ToString();
 		}
 	}
 }

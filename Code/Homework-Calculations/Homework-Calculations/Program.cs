@@ -1,4 +1,5 @@
 ﻿using ScottPlot;
+using System.Text;
 
 namespace Homework01_Calculations
 {
@@ -12,7 +13,14 @@ namespace Homework01_Calculations
 
 		private static void Task2(string text)
 		{
+			text = text.ToLower();
 			CreateHistogram(text, "original.png");
+			string shifted = ShiftCipher(text, 7);
+			CreateHistogram(shifted, "shifted.png");
+			string permuted = PermutationCipher(text);
+			CreateHistogram(permuted, "permuted.png");
+			string vigenere = VigenereCipher(text, "tolkien");
+			CreateHistogram(vigenere, "vigenere.png");
 		}
 
 		private static void CreateHistogram(string text, string result)
@@ -41,6 +49,29 @@ namespace Homework01_Calculations
 			plot.Axes.Bottom.TickGenerator = new ScottPlot.TickGenerators.NumericManual(ticks);
 
 			plot.SavePng(result, 500, 600);
+		}
+
+		private static string ShiftCipher(string message, int shift)
+		{
+			StringBuilder result = new StringBuilder(message.Length);
+
+			foreach (char c in message)
+			{
+				char shifted = (char)((c - 'a' + shift) % 26 + 'a');
+				result.Append(shifted);
+			}
+
+			return result.ToString();
+		}
+
+		private static string PermutationCipher(string message)
+		{
+
+		}
+
+		private static string VigenereCipher(string message, string password)
+		{
+
 		}
 	}
 }

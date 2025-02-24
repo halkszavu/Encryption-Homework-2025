@@ -1,19 +1,22 @@
 ﻿using ScottPlot;
 using System.Text;
 
+using static System.Console;
+
 namespace Homework01_Calculations
 {
 	internal class Program
 	{
 		static void Main(string[] args)
 		{
-			string sample = "In a hole in the ground there lived a hobbit. Not a nasty, dirty, wet hole, filled with the ends of worms and an oozy smell, nor yet a dry, bare, sandy hole with nothing in it to sit down on or to eat: it was a hobbit-hole, and that means comfort";
+			//string sample = "In a hole in the ground there lived a hobbit. Not a nasty, dirty, wet hole, filled with the ends of worms and an oozy smell, nor yet a dry, bare, sandy hole with nothing in it to sit down on or to eat: it was a hobbit-hole, and that means comfort";
+			string sample = "This is a short sample text";
 			Task2(sample);
 		}
 
 		private static void Task2(string text)
 		{
-			text = text.ToLower();
+			text = new string(text.Where(char.IsLetter).ToArray()).ToLower();
 			CreateHistogram(text, "original.png");
 			string shifted = ShiftCipher(text, 7);
 			CreateHistogram(shifted, "shifted.png");
@@ -21,6 +24,12 @@ namespace Homework01_Calculations
 			CreateHistogram(permuted, "permuted.png");
 			string vigenere = VigenereCipher(text, "tolkien");
 			CreateHistogram(vigenere, "vigenere.png");
+
+			WriteLine("Original: " + text);
+			WriteLine("Shifted: " + shifted);
+			WriteLine("Permuted: " + permuted);
+			WriteLine("Vigenere: " + vigenere);
+			WriteLine("Done!");
 		}
 
 		private static void CreateHistogram(string text, string result)
@@ -36,10 +45,10 @@ namespace Homework01_Calculations
 			}
 
 			// Display results
-			foreach (var kvp in frequencies)
-			{
-				Console.WriteLine($"{kvp.Key}: {kvp.Value}");
-			}
+			//foreach (var kvp in frequencies)
+			//{
+			//	Console.WriteLine($"{kvp.Key}: {kvp.Value}");
+			//}
 
 			Plot plot = new();
 			plot.Add.Bars(frequencies.Values.Select(x => (double)x).ToArray());
@@ -69,13 +78,14 @@ namespace Homework01_Calculations
 			int keylength = key.Length;
 			StringBuilder result = new(message.Length);
 			int i = 0;
-			while (message.Length <= keylength * i)
+			while (message.Length > keylength * i)
 			{
 				for (int j = 0; j < keylength; j++)
 				{
-					char c = message.Length < key[j] + keylength * i ? message[key[j] + keylength * i] : 'X';
+					char c = message.Length > key[j] + keylength * i ? message[key[j] + keylength * i] : 'X';
 					result.Append(c);
 				}
+				i++;
 			}
 
 			return result.ToString();

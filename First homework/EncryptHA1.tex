@@ -54,8 +54,40 @@
 		The encrypted message is (NCE).
 	\end{enumerate}
 	\item \textbf{Task 2}
-		My choice of English plaintext is from "The Hobbit":
-		\textit{In a hole in the ground there lived a hobbit. Not a nasty, dirty, wet hole, filled with the ends of worms and an oozy smell, nor yet a dry, bare, sandy hole with nothing in it to sit down on or to eat: it was a hobbit-hole, and that means comfort}
+		My choice of English plaintext is from "The Hobbit":\\
+		\textit{In a hole in the ground there lived a hobbit. Not a nasty, dirty, wet hole, filled with the ends of worms and an oozy smell, nor yet a dry, bare, sandy hole with nothing in it to sit down on or to eat: it was a hobbit-hole, and that means comfort}\\
+		This is the original frequency analysis of the text:
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=0.7\textwidth]{original.png}
+			\caption{The plaintext histogram}
+			\label{fig:originalHist}
+		\end{figure}
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=0.7\textwidth]{shifted.png}
+			\caption{Ciphertext histogram after shift cipher}
+			\label{fig:shiftedHist}
+		\end{figure}
+		Then I generated a ciphertext using shift cipher with key $k=7$.\\
+		On the histogram \ref{fig:shiftedHist} the bars' height does not change compared to the original text, only their position moves with the key. This is the key giveaway for the shift cipher.
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=0.7\textwidth]{permuted.png}
+			\caption{Ciphertext histogram after permutation cipher}
+			\label{fig:permutedHist}
+		\end{figure}
+		Then I generated a ciphertext with permutation cipher using the key $(7, 2, 5, 3, 8, 4, 1, 6)$, meaning the length of the key is 8. I denoted the first element with 1 in the key.\\
+		The histogram \ref{fig:permutedHist} shows that all the letter frequencies remained the same, except for x, which I used to pad out the last segment of the plaintext. This is the main property for permutation ciphers, the letter frequencies do not change, only the individual letters' position.
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=0.7\textwidth]{vigenere.png}
+			\caption{Ciphertext histogram after Vigenère cipher}
+			\label{fig:vigenerelHist}
+		\end{figure}
+		The last ciphertext is generated with Vigenère cipher, using the key $(tolkien)$ (I felt this to be appropriate for the plaintext).\\
+		The resulting histogram \ref{fig:vigenerelHist} shows a much more evenly distributed letter frequency. This is the result of each individual letter being encoded with a different individual key. The more even histogram indicates a Vigenère cipher.\\
+		For each cipher I wrote the code using C\#. The histograms are generated using ScottPlot, which is a free tool for .NET. The code is available (publicly) on GitHub. \hyperlink{https://github.com/halkszavu/Encryption-Homework-2025/blob/main/Code/Homework-Calculations/Homework-Calculations/Program.cs}{Program code}
 	\item \textbf{Task 3}
 	\item \textbf{Task 4}
 	\item \textbf{Task 5}

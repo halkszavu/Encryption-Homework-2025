@@ -47,8 +47,8 @@
 		Meaning the key is: $k = (5, 13)$\\
 		For decrypting the second message we firstly need the multiplicative inverse of $5 \pmod 97$ which is 39. Writing this into the decryption function we get:
 		\begin{align*}
-			D(k, 78) &= 39 \cdot (78 - 13) \bmod 97 = 13 (N)
-			D(k, 23) &= 39 \cdot (23 - 13) \bmod 97 = 2 (C)
+			D(k, 78) &= 39 \cdot (78 - 13) \bmod 97 = 13 (N)\\
+			D(k, 23) &= 39 \cdot (23 - 13) \bmod 97 = 2 (C)\\
 			D(k, 33) &= 39 \cdot (33 - 13) \bmod 97 = 4 (E)
 		\end{align*}
 		The encrypted message is (NCE).

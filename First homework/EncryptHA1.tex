@@ -9,7 +9,7 @@
 \homeworktitle
 
 \begin{enumerate}[label={}]
-	\item \textbf{Task 1:} Affine cipher in $\Z_{97}$.
+	\item \textbf{Task 1:} Affine cipher in $\Z_{97}$.\\
 	\begin{enumerate}
 		\item Encryption and Decryption functions with key $k=(a,b)$ (the message is $m$ and the resulting ciphertext is $c$):
 		\begin{align*}
@@ -53,7 +53,7 @@
 		\end{align*}
 		The encrypted message is (NCE).
 	\end{enumerate}
-	\item \textbf{Task 2}
+	\item \textbf{Task 2} Histograms for different ciphers\\
 		My choice of English plaintext is from "The Hobbit":\\
 		\textit{In a hole in the ground there lived a hobbit. Not a nasty, dirty, wet hole, filled with the ends of worms and an oozy smell, nor yet a dry, bare, sandy hole with nothing in it to sit down on or to eat: it was a hobbit-hole, and that means comfort}\\
 		This is the original frequency analysis of the text:
@@ -92,8 +92,8 @@
 		Assume that explaining and using all the historical ciphers would be possible on a level, that an average ancient Roman can understand. (This would be a big limitation, because otherwise one can only use a cipher that is understandable for those who need to operate it.) In this case the best cipher would be the One-Time Pad, because it is perfectly secure. However, operating such cipher requires an already established prior communication over a secure channel, in which case the encrypting is pointless.\\
 		The second best option (in my opinion) is to use Vigenère cipher with a password that is comparable in size to the average message. (I assume that the messages are fairly short, based on the application.) This can achieve OTP level security with one message (multiple intercepted messages can be broken with sufficient effort).\\
 		All other ciphers that we discussed are more easier to break with statistical and brute force methods.
-	\item \textbf{Task 4}
-		
+	\item \textbf{Task 4} Breaking One Time Pad\\
+		One Time Pad is unbreakable. With only the intercepted ciphertext I can not make any guess on the key or the plaintext. Every guess would be as likely as the next one. The only thing that can help finding a more plausible plaintext would be the statistical likelihood of one 3-letter word to show up randomly.
 	\item \textbf{Task 5}
 		
 \end{enumerate}

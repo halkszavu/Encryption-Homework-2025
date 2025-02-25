@@ -88,9 +88,13 @@
 		The last ciphertext is generated with Vigenère cipher, using the key $(tolkien)$ (I felt this to be appropriate for the plaintext).\\
 		The resulting histogram \ref{fig:vigenerelHist} shows a much more evenly distributed letter frequency. This is the result of each individual letter being encoded with a different individual key. The more even histogram indicates a Vigenère cipher.\\
 		For each cipher I wrote the code using C\#. The histograms are generated using ScottPlot, which is a free tool for .NET. The code is available (publicly) on GitHub. \hyperlink{https://github.com/halkszavu/Encryption-Homework-2025/blob/main/Code/Homework-Calculations/Homework-Calculations/Program.cs}{Program code}
-	\item \textbf{Task 3}
-		
+	\item \textbf{Task 3} What cipher would be better for Iulius Caesar?\\
+		Assume that explaining and using all the historical ciphers would be possible on a level, that an average ancient Roman can understand. (This would be a big limitation, because otherwise one can only use a cipher that is understandable for those who need to operate it.) In this case the best cipher would be the One-Time Pad, because it is perfectly secure. However, operating such cipher requires an already established prior communication over a secure channel, in which case the encrypting is pointless.\\
+		The second best option (in my opinion) is to use Vigenère cipher with a password that is comparable in size to the average message. (I assume that the messages are fairly short, based on the application.) This can achieve OTP level security with one message (multiple intercepted messages can be broken with sufficient effort).\\
+		All other ciphers that we discussed are more easier to break with statistical and brute force methods.
 	\item \textbf{Task 4}
+		
 	\item \textbf{Task 5}
+		
 \end{enumerate}
 \end{document}

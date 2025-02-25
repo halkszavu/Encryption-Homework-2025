@@ -11,6 +11,9 @@ namespace Homework01_Calculations
 		{
 			string sample = "In a hole in the ground there lived a hobbit. Not a nasty, dirty, wet hole, filled with the ends of worms and an oozy smell, nor yet a dry, bare, sandy hole with nothing in it to sit down on or to eat: it was a hobbit-hole, and that means comfort";
 			Task2(sample);
+
+			string exercise = "FHKOJASZAFUDTBJQLVMKFHKZKFWGACXWGGUMNGAVKSNWEWWNMPANKWHFHKUIXIJMFEUJLGZLEBJDOAOJMDUWTKOAEGDEZZAUNMBQAPKVPQAXTATEGLNQSYVKOKCIUMLCIAEHGXRKTUXQUNZVGIGXGHRITLQDSOVVTEXQITTJQTQCZQQZBABRQEBMUFHKXQXTKZIQIYBYMSCWTFHZEQXOISGPDUWTEATLCFROKMETGQTOAYMKRYUCOQTNQOIHKVAAUCMTQLGBGROXKNMSYPGIOATFPRUXYMSZMRMPKZDMSQMVEOTGQGRNMCPPATNDUMAHDOSCPPEXGQGRLMGFPKTVKOAEKFHHQVEOLKJMLQWTENKIMGPHMJUNJGQGITDKEIHTGSRGJAAUXVQEEGVFECXMGOHMWVKOAZEANQ";
+			Task5(exercise);
 		}
 
 		private static void Task2(string text)
@@ -30,6 +33,11 @@ namespace Homework01_Calculations
 			WriteLine("Permuted: " + permuted);
 			WriteLine("Vigenere: " + vigenere);
 			WriteLine("Done!");
+		}
+
+		private static void Task5(string text)
+		{
+
 		}
 
 		private static void CreateHistogram(string text, string result)

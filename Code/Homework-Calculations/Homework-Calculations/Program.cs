@@ -10,7 +10,7 @@ namespace Homework01_Calculations
 		static void Main(string[] args)
 		{
 			string sample = "In a hole in the ground there lived a hobbit. Not a nasty, dirty, wet hole, filled with the ends of worms and an oozy smell, nor yet a dry, bare, sandy hole with nothing in it to sit down on or to eat: it was a hobbit-hole, and that means comfort";
-			Task2(sample);
+			//Task2(sample);
 
 			string exercise = "FHKOJASZAFUDTBJQLVMKFHKZKFWGACXWGGUMNGAVKSNWEWWNMPANKWHFHKUIXIJMFEUJLGZLEBJDOAOJMDUWTKOAEGDEZZAUNMBQAPKVPQAXTATEGLNQSYVKOKCIUMLCIAEHGXRKTUXQUNZVGIGXGHRITLQDSOVVTEXQITTJQTQCZQQZBABRQEBMUFHKXQXTKZIQIYBYMSCWTFHZEQXOISGPDUWTEATLCFROKMETGQTOAYMKRYUCOQTNQOIHKVAAUCMTQLGBGROXKNMSYPGIOATFPRUXYMSZMRMPKZDMSQMVEOTGQGRNMCPPATNDUMAHDOSCPPEXGQGRLMGFPKTVKOAEKFHHQVEOLKJMLQWTENKIMGPHMJUNJGQGITDKEIHTGSRGJAAUXVQEEGVFECXMGOHMWVKOAZEANQ";
 			Task5(exercise);
@@ -37,7 +37,49 @@ namespace Homework01_Calculations
 
 		private static void Task5(string text)
 		{
+			WriteLine("Task 5:");
+			for (int i = 1; i < text.Length; i++)
+			{
+				var offset = OverlayText(text, i);
+				var diff = offset.Select(text => text.Item1 - text.Item2);
+				var zeros = FindConsecutiveZeros(diff);
+				if (zeros.Any())
+				{
+					WriteLine($"{i} offset:");
+					foreach (var zero in zeros)
+					{
+						WriteLine($"Position: {zero.pos}, Length: {zero.len}");
+						WriteLine($"Text: {text.Substring(zero.pos, zero.len)}");
+					}
+				}
+			}
 
+			WriteLine("Finding candidates of actual repetition:");
+			do
+			{
+				WriteLine("Enter the candidate:");
+				string candidate = ReadLine().ToUpper();
+				var indices = AllOccurences(text, candidate);
+				foreach (var index in indices)
+				{
+					WriteLine($"Position: {index}");
+				}
+				WriteLine("Do you want to continue? (Y/N)");
+			} while (ReadLine().ToLower() != "Y");
+
+		}
+
+		private static IEnumerable<int> AllOccurences(string text, string candidate)
+		{
+			int index = 0;
+			while (index < text.Length)
+			{
+				index = text.IndexOf(candidate, index);
+				if (index == -1)
+					break;
+				yield return index;
+				index++;
+			}
 		}
 
 		private static void CreateHistogram(string text, string result)
@@ -114,6 +156,43 @@ namespace Homework01_Calculations
 			}
 
 			return result.ToString();
+		}
+
+		private static IEnumerable<(char, char)> OverlayText(string text, int offset)
+		{
+			for (int i = 0; i < text.Length; i++)
+			{
+				yield return (text[i], text[(i + offset) % text.Length]);
+			}
+		}
+
+		private static IEnumerable<(int pos, int len)> FindConsecutiveZeros(IEnumerable<int> numbers)
+		{
+			int start = -1;
+			int length = 0;
+			int index = 0;
+
+			foreach (var num in numbers)
+			{
+				if (num == 0)
+				{
+					if (length == 0)
+						start = index;
+					length++;
+				}
+				else
+				{
+					if (length >= 3)
+						yield return (start, length);
+
+					length = 0;
+				}
+
+				index++;
+			}
+
+			if (length >= 2)
+				yield return (start, length);
 		}
 	}
 }

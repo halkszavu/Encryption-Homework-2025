@@ -101,7 +101,18 @@
 			\item \texttt{VKO} in positions 118, 339, 409 (221, 70)
 			\item \texttt{GQG} in positions 303, 328, 373 (25, 45)
 		\end{itemize}
-		The difference between two appearance of a group of letters (trio of letters in this case) is most likely a multiple of the key, based on how the Vigenère cipher works. In our case this is most likely 5.\\
-		To determine if this assumption is correct I calculate the index of coincidences for each part of the ciphertext. (A part is every fifth letter of the ciphertext from the first, second, ... fifth letter.) For this I use my own code (\hyperlink{https://github.com/halkszavu/Encryption-Homework-2025/blob/main/Code/Homework-Calculations/Homework-Calculations/Program.cs}{Program code}).
+		The difference between two appearance of a group of letters (trio of letters in this case) is most likely a multiple of the key, based on how the Vigenère cipher works. In our case this is most likely 5. (The greatest common divisor among the position differences if we exclude 221.)\\
+		To determine if this assumption is correct I calculate the index of coincidences for each part of the ciphertext. (A part is every fifth letter of the ciphertext from the first, second, ... fifth letter.) For this I use my own code (\hyperlink{https://github.com/halkszavu/Encryption-Homework-2025/blob/main/Code/Homework-Calculations/Homework-Calculations/Program.cs}{Program code}).\\
+		These are my results for the index of coincidence calculations:
+		\begin{itemize}		
+			 \item  0.06224899598393574
+			 \item  0.060527825588066554
+			 \item  0.05823293172690763
+			 \item  0.05789009697325889
+			 \item  0.05524537173082574
+		\end{itemize}
+		These are all around (just somewhat below) the expected value for meaningful text, $0.065$. This reinforces the idea that the key's length is indeed 5.
 \end{enumerate}
+
+For each task I used the materials presented in the lectures and my code that is available on Github: \hyperlink{https://github.com/halkszavu/Encryption-Homework-2025/blob/main/Code/Homework-Calculations/Homework-Calculations/Program.cs}{Program code}.
 \end{document}

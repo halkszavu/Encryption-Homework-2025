@@ -94,7 +94,14 @@
 		All other ciphers that we discussed are more easier to break with statistical and brute force methods.
 	\item \textbf{Task 4} Breaking One Time Pad\\
 		One Time Pad is unbreakable. With only the intercepted ciphertext I can not make any guess on the key or the plaintext. Every guess would be as likely as the next one. The only thing that can help finding a more plausible plaintext would be the statistical likelihood of one 3-letter word to show up randomly.
-	\item \textbf{Task 5}
-		
+	\item \textbf{Task 5} Breaking ciphertext encrypted with Vigenère cipher\\
+		The first task is to find recurring letter groups, which indicate that the same letters were encoded with the same key (or part of the key). For this I used my code focusing on groups, that have at least 3 length (anything smaller than that could be random noise, so I discarded that). Then I selected a few candidates that I found, and located them in the ciphertext (I used my code which returned their zero based positions). I got the following (with the differences between consecutive appearances, which I need later):
+		\begin{itemize}
+			\item \texttt{FHK} in positions 0, 20, 55, 185 (20, 35, 130)
+			\item \texttt{VKO} in positions 118, 339, 409 (221, 70)
+			\item \texttt{GQG} in positions 303, 328, 373 (25, 45)
+		\end{itemize}
+		The difference between two appearance of a group of letters (trio of letters in this case) is most likely a multiple of the key, based on how the Vigenère cipher works. In our case this is most likely 5.\\
+		To determine if this assumption is correct I calculate the index of coincidences for each part of the ciphertext. (A part is every fifth letter of the ciphertext from the first, second, ... fifth letter.) For this I use my own code (\hyperlink{https://github.com/halkszavu/Encryption-Homework-2025/blob/main/Code/Homework-Calculations/Homework-Calculations/Program.cs}{Program code}).
 \end{enumerate}
 \end{document}

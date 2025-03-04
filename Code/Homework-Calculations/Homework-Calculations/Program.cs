@@ -37,6 +37,13 @@ namespace Homework01_Calculations
 
 		private static void Task5(string text)
 		{
+			//Part1(text);
+
+			Part2(text, 5);
+		}
+
+		private static void Part1(string text)
+		{
 			WriteLine("Task 5:");
 			for (int i = 1; i < text.Length; i++)
 			{
@@ -65,21 +72,13 @@ namespace Homework01_Calculations
 					WriteLine($"Position: {index}");
 				}
 				WriteLine("Do you want to continue? (Y/N)");
-			} while (ReadLine().ToLower() != "Y");
-
+			} while (ReadLine().ToLower() != "y");
 		}
 
-		private static IEnumerable<int> AllOccurences(string text, string candidate)
+		private static void Part2(string text, int keylength)
 		{
-			int index = 0;
-			while (index < text.Length)
-			{
-				index = text.IndexOf(candidate, index);
-				if (index == -1)
-					break;
-				yield return index;
-				index++;
-			}
+			string[] parts = SeparateStrings(text, keylength);
+
 		}
 
 		private static void CreateHistogram(string text, string result)
@@ -193,6 +192,19 @@ namespace Homework01_Calculations
 
 			if (length >= 2)
 				yield return (start, length);
+		}
+		
+		private static IEnumerable<int> AllOccurences(string text, string candidate)
+		{
+			int index = 0;
+			while (index < text.Length)
+			{
+				index = text.IndexOf(candidate, index);
+				if (index == -1)
+					break;
+				yield return index;
+				index++;
+			}
 		}
 	}
 }

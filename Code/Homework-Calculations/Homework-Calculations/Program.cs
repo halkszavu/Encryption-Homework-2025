@@ -78,7 +78,11 @@ namespace Homework01_Calculations
 		private static void Part2(string text, int keylength)
 		{
 			string[] parts = SeparateStrings(text, keylength);
-
+			foreach (var item in parts)
+			{
+				double IC = IndexOfCoincidence(item);
+				WriteLine($"Index of Coincidence: {IC}");
+			}
 		}
 
 		private static void CreateHistogram(string text, string result)
@@ -205,6 +209,29 @@ namespace Homework01_Calculations
 				yield return index;
 				index++;
 			}
+		}
+
+		private static string[] SeparateStrings(string text, int keylength)
+		{
+			string[] parts = new string[keylength];
+			for (int i = 0; i < text.Length; i++)
+			{
+				parts[i % keylength] += text[i];
+			}
+			return parts;
+		}
+
+		private static double IndexOfCoincidence(string text)
+		{
+			int N = text.Length;
+			var frequencies = "abcdefghijklmnopqrstuvwxyz".ToDictionary(c => c, c => 0D);
+
+			foreach (char c in text.ToLower().Where(char.IsLetter))
+			{
+				frequencies[c]++;
+			}
+
+			return frequencies.Values.Where(x => x > 0).Sum(x => x * (x - 1)) / (N * (N - 1));
 		}
 	}
 }

@@ -9,9 +9,21 @@ namespace Homework02_Calculations
 		static void Main(string[] args)
 		{
 			WriteLine("Task 1:");
+			WriteLine("Part 1:");
 			string message = "THEWANDCHOOSESTHEWIZARD".ToLower();
 			string password = "MAGIC".ToLower();
 			string encrypted = VigenereCipher(message, password);
+			WriteLine($"Message: {message} encrypted with password: {password} is:\n{encrypted}");
+
+			WriteLine("Part 2:");
+			message = "THEWANDCHOOSESTHELIZARD".ToLower();
+			encrypted = VigenereCipher(message, password);
+			WriteLine($"Message: {message} encrypted with password: {password} is:\n{encrypted}");
+
+			WriteLine("Part 3:");
+			message = "THEWANDCHOOSESTHEWIZARD".ToLower();
+			password = "MANIC".ToLower();
+			encrypted = VigenereCipher(message, password);
 			WriteLine($"Message: {message} encrypted with password: {password} is:\n{encrypted}");
 		}
 

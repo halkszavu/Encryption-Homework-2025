@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-
+using static System.Console;
 
 namespace Homework02_Calculations
 {
@@ -8,7 +8,11 @@ namespace Homework02_Calculations
 	{
 		static void Main(string[] args)
 		{
-			
+			WriteLine("Task 1:");
+			string message = "THEWANDCHOOSESTHEWIZARD".ToLower();
+			string password = "MAGIC".ToLower();
+			string encrypted = VigenereCipher(message, password);
+			WriteLine($"Message: {message} encrypted with password: {password} is:\n{encrypted}");
 		}
 
 		private static string VigenereCipher(string message, string password)

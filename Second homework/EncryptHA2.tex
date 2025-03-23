@@ -21,14 +21,16 @@
 			\item Change one letter in the key: Encrypt \textsc{THEWANDCHOOSESTHEWIZARD} using Vigenère cipher with \textsc{MANIC} as key: \textsc{FHRECZDPPQASRAVTEJQBMRQ}. I changed one letter in the key compared to the original key, and five letters changed in the resulting ciphertext (compared with the original ciphertext).\\
 			The confusion property is when changing one bit (a letter in this case) in the key changes around half of the resulting ciphertext for a given plaintext. With this message (which is 23 letters long) the expected change should be around 11, but this does not happen with changing one letter in the key. Thus the confusion property is not properly achieved in the Vigenère cipher.	
 		\end{enumerate}
-		\item \textbf{Pseudorandom function}
-		A pseudorandom function is one where the attacker cannot meaningfully distinguish between a random function or an encryption (with a given key $K$) is applied to the message based on the output.
+		\item \textbf{Pseudorandom function} \\
+		A pseudorandom function is one where the adversary cannot meaningfully distinguish between a random function or an encryption (with a given key $K$) is applied to the message based on the output.
 		\begin{enumerate}[label=-]
-			\item $ F'(k, m) = F(k, m) \Vert 0^n $
-			\item $ F'(k, m \Vert m') = F(k, m) \Vert F(k, m' \otimes 0^n) $
+			\item $ F'(k, m) = F(k, m) \Vert 0^n $ \\
+			This function does not satisfy the pseudorandom function's definition: an adversary can say if the last character is '1', then it was the generated function. This produces a greater hit result than it would be purely by chance.
+			\item $ F'(k, m \Vert m') = F(k, m) \Vert F(k, m' \otimes 0^n) $ \\
+			One can generate a message so that $m = m' \otimes 0^n$ (e.g.: a message with all 1's). In this case the result from $F'$ will consist of the same two blocks.
 			\item $ F'(k, m \Vert m') = F(k, 0 \Vert m) \otimes F(k, m' \Vert 1) $
 		\end{enumerate}
-		\item 
+		\item \textbf{Output feedback mode}
 		\item 
 		\item 
 	\end{enumerate}

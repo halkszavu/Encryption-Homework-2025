@@ -11,22 +11,23 @@
 	\begin{enumerate}[label=\textbf{Task \arabic*:}]
 		\item \textbf{Confusion and diffusion}
 		\begin{enumerate}[label=\textit{Part \roman*:}]
-			\item Encrypt \textsc{THEWANDCHOOSESTHEWIZARD} using Vigenère cipher with \textsc{MAGIC} as key: \textsc{fhkeczdipqaskavtecqbmrj}. I used my code from the previous assignment to achieve this. (In my code I used lowercase, meaning I had to convert the message and key in my code.)
+			\item Encrypt \textsc{THEWANDCHOOSESTHEWIZARD} using Vigenère cipher with \textsc{MAGIC} as key: \textsc{FHKECZDIPQASKAVTECQBMRJ}. I used my code from the previous assignment to achieve this. (In my code I used lowercase, meaning I had to convert the message and key in my code.)
 			
-			\item Change one letter in the plaintext: Encrypt \textsc{THEWANDCHOOSESTHELIZARD} using Vigenère cipher with \textsc{MAGIC} as key: \textsc{fhkeczdipqaskavterqbmrj}. I changed one letter compared to the original message, and only one letter changed in the resulting ciphertext.\\
+			\item Change one letter in the plaintext: Encrypt \textsc{THEWANDCHOOSESTHELIZARD} using Vigenère cipher with \textsc{MAGIC} as key: \textsc{FHKECZDIPQASKAVTERQBMRJ}. I changed one letter compared to the original message, and only one letter changed in the resulting ciphertext.\\
 			%Message: thewandchoosesthelizard encrypted with password: magic is:
 			%fhkeczdipqaskavterqbmrj
 			The diffusion property is when changing one bit (in this case letter) in the plaintext changes around half of the resulting ciphertext. This does not happen with Vigenère cipher, as changing one letter in the plaintext changes only one letter in the ciphertext. This means that the diffusion property is not achieved in the Vigenère cipher. (The diffusion property should not depend on which letter is changed in the plaintext.)
 			
-			\item Change one letter in the key: Encrypt \textsc{THEWANDCHOOSESTHEWIZARD} using Vigenère cipher with \textsc{MANIC} as key: \textsc{fhreczdppqasravtejqbmrq}. I changed one letter in the key compared to the original key, and five letters changed in the resulting ciphertext (compared with the original ciphertext).\\
-			The confusion property is when changing one bit (a letter in this case) in the key changes around half of the resulting ciphertext for a given plaintext. With this message (which is 23 letters long) the expected change should be around 11, but this does not happen with changing one letter in the key. Thus the confusion property is not properly achieved in the Vigenère cipher.
-			
-			%Message: thewandchoosesthewizard encrypted with password: manic is:
-			%fhreczdppqasravtejqbmrq
-			%fhkeczdipqaskavtecqbmrj
-			%00100001000010000100001=5		
+			\item Change one letter in the key: Encrypt \textsc{THEWANDCHOOSESTHEWIZARD} using Vigenère cipher with \textsc{MANIC} as key: \textsc{FHRECZDPPQASRAVTEJQBMRQ}. I changed one letter in the key compared to the original key, and five letters changed in the resulting ciphertext (compared with the original ciphertext).\\
+			The confusion property is when changing one bit (a letter in this case) in the key changes around half of the resulting ciphertext for a given plaintext. With this message (which is 23 letters long) the expected change should be around 11, but this does not happen with changing one letter in the key. Thus the confusion property is not properly achieved in the Vigenère cipher.	
 		\end{enumerate}
 		\item \textbf{Pseudorandom function}
+		A pseudorandom function is one where the attacker cannot meaningfully distinguish between a random function or an encryption (with a given key $K$) is applied to the message based on the output.
+		\begin{enumerate}[label=-]
+			\item $ F'(k, m) = F(k, m) \Vert 0^n $
+			\item $ F'(k, m \Vert m') = F(k, m) \Vert F(k, m' \otimes 0^n) $
+			\item $ F'(k, m \Vert m') = F(k, 0 \Vert m) \otimes F(k, m' \Vert 1) $
+		\end{enumerate}
 		\item 
 		\item 
 		\item 

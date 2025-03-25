@@ -27,12 +27,21 @@
 			\item $ F'(k, m) = F(k, m) \Vert 0^n $ \\
 			This function does not satisfy the pseudorandom function's definition: an adversary can say if the last character is '1', then it was the generated function. This produces a greater hit result than it would be purely by chance.
 			\item $ F'(k, m \Vert m') = F(k, m) \Vert F(k, m' \otimes 0^n) $ \\
-			One can generate a message so that $m = m' \otimes 0^n$ (e.g.: a message with all 1's). In this case the result from $F'$ will consist of the same two blocks.
-			\item $ F'(k, m \Vert m') = F(k, 0 \Vert m) \otimes F(k, m' \Vert 1) $
+			One can generate a message so that $m = m' \otimes 0^n$ (e.g.: a message with all 1's). In this case the result from $F'$ will consist of the same two blocks if the encryption was used. This will help discover if the result is the product of the random function or the $F'$.
+			\item $ F'(k, m \Vert m') = F(k, 0 \Vert m) \otimes F(k, m' \Vert 1) $\\
+			Generate a message with the following properties: $ 0 \Vert m = m' \Vert 1 $. This would mean that the message looks like this: $ 0 \Vert u \Vert 1 \Vert 0 \Vert u \Vert 1 $ where $u$ is a binary string. In this case the $F'$ will return all 1's, which will help disseminate from the random function's output.
 		\end{enumerate}
-		\item \textbf{Output feedback mode}
-		\item %CFB
-		\item %IND-OT-CPA
+		\item \textbf{Output feedback mode}\\
+		\begin{enumerate}[label=\textit{Part \roman*:}]
+			\item 
+			\item 
+			\item 
+		\end{enumerate}
+		
+		\item  %CFB
+		
+		\item  %IND-OT-CPA
+		
 	\end{enumerate}
 	
 \end{document}

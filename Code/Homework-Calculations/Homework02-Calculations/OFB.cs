@@ -38,7 +38,7 @@ namespace Homework02_Calculations
 				result[i] = EncryptOne(Convert(ciphertext[i]));
 			}
 			return result.Select(Convert).ToArray();
-		}
+		}		
 
 		bool[] EncryptOne(bool[] message)
 		{

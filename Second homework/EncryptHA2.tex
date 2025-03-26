@@ -33,9 +33,9 @@
 		\end{enumerate}
 		\item \textbf{Output feedback mode}\\
 		\begin{enumerate}[label=\textit{Part \roman*:}]
-			\item Encrypting \textsc{DOG} with OFB generated the following result: $10000, 10100, 11111$. I used my own implementation, which can be found in \hyperlink{https://github.com/halkszavu/Encryption-Homework-2025}{Source code}.
-			\item 
-			\item 
+			\item Encrypting \textsc{DOG} (which is $00011, 01110, 00110$) with OFB generated the following result: $10000, 10100, 11111$. I used my own implementation, which can be found in \hyperlink{https://github.com/halkszavu/Encryption-Homework-2025}{Source code}.
+			\item After flipping the fifth bit of the ciphertext we get $10001, 10100, 11111$. Decrypting this with the same OFB (with the same initialization vector), we got $00010, 01110, 00110$. Comparing to the previous encryption we can see that only one bit changed.
+			\item Changing the initialization vector (only one bit) and decrypting the original ciphertext ($10000, 10100, 11111$) we get $01011, 01111, 00100$. Comparing it to the original message ($00011, 01110, 00110$), we can see that 3 bits changed in the resulting plaintext.
 		\end{enumerate}
 		
 		\item  %CFB

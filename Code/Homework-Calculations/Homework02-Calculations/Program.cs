@@ -39,7 +39,12 @@ namespace Homework02_Calculations
 			int[] key = { 4, 1, 3, 5, 2 };
 			string iv = "01011";
 			OFB ofb = new(key, iv);
+			string message = "DOG";
 
+			WriteLine("Task 3:");
+			WriteLine("Part 1:");
+			string[] encrypted = ofb.Encrypt(message.Select(Convert).ToArray());
+			WriteLine($"Message: {message} encrypted with key: {string.Join(", ", key)} and IV: {iv} is:\n{string.Join(", ", encrypted)}");
 		}
 
 		private static string VigenereCipher(string message, string password)

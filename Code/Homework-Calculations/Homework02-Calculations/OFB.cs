@@ -57,7 +57,7 @@ namespace Homework02_Calculations
 				{
 					int pos = key[j] + keylength * i - 1;
 					bool c = message.Length > pos ? message[pos] : false;
-					result.Append(c);
+					result.Add(c);
 				}
 				i++;
 			}

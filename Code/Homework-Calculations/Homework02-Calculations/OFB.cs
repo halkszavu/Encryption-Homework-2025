@@ -5,48 +5,57 @@ namespace Homework02_Calculations
 	internal class OFB
 	{
 		private readonly int[] key;
-		string IV;
+		bool[] IV;
 
-		public OFB(int[] key, string IV)
+		public OFB(int[] key, string iv)
 		{
 			this.key = key;
-			this.IV = IV;
+			IV = new bool[iv.Length];
+			for(int i = 0; i < iv.Length; i++)
+				IV[i] = iv[i] == '1';
 		}
 
-		public string Encrypt(string message)
+		public bool[][] Encrypt(bool[][] message)
+		{
+			bool[][] result = new bool[message.Length][];
+			for(int i = 0; i < message.Length; i++)
+			{
+				result[i] = EncryptOne(message[i]);
+			}
+			return result;
+		}
+
+		bool[] EncryptOne(bool[] message)
 		{
 			IV = PermutationCipher(IV, key);
 			return XOR(message, IV);
 		}
 
-		private static string PermutationCipher(string message, int[] key)
+		private static bool[] PermutationCipher(bool[] message, int[] key)
 		{
 			int keylength = key.Length;
-			StringBuilder result = new(message.Length);
+			List<bool> result = new(message.Length);
 			int i = 0;
 			while (message.Length > keylength * i)
 			{
 				for (int j = 0; j < keylength; j++)
 				{
 					int pos = key[j] + keylength * i - 1;
-					char c = message.Length > pos ? message[pos] : 'X';
+					bool c = message.Length > pos ? message[pos] : false;
 					result.Append(c);
 				}
 				i++;
 			}
 
-			return result.ToString();
+			return result.ToArray();
 		}
 
-		private static string XOR(string message, string IV)
+		private static bool[] XOR(bool[] message, bool[] IV)
 		{
-			StringBuilder result = new(message.Length);
-			for (int i = 0; i < message.Length; i++)
-			{
-				char c = (char)(message[i] ^ IV[i]);
-				result.Append(c);
-			}
-			return result.ToString();
+			bool[] result = new bool[message.Length];
+			for(int i = 0; i < message.Length; i++)
+				result[i] = message[i] ^ IV[i];
+			return result;
 		}
 	}
 }

@@ -44,7 +44,23 @@ namespace Homework02_Calculations
 			WriteLine("Task 3:");
 			WriteLine("Part 1:");
 			string[] encrypted = ofb.Encrypt(message.Select(Convert).ToArray());
-			WriteLine($"Message: {message} encrypted with key: {string.Join(", ", key)} and IV: {iv} is:\n{string.Join(", ", encrypted)}");
+			WriteLine($"Message: {message} as {string.Join(", ", message.Select(Convert))} encrypted with key: {string.Join(", ", key)} and IV: {iv} is:\n{string.Join(", ", encrypted)}");
+			ofb.Reset();
+			string[] decrypted = ofb.Decrypt(encrypted);
+			WriteLine($"Encrypted message: {string.Join(", ", encrypted)} decrypted is:\n{string.Join(", ", decrypted)}");
+
+			// Change the 5th bit:
+			encrypted[0] = encrypted[0].Substring(0, 4) + (encrypted[0][4] == '0' ? '1' : '0') + encrypted[0].Substring(5);
+			ofb.Reset();
+			decrypted = ofb.Decrypt(encrypted);
+			WriteLine($"Encrypted message: {string.Join(", ", encrypted)} decrypted is:\n{string.Join(", ", decrypted)}");
+
+			// Change back:
+			encrypted[0] = encrypted[0].Substring(0, 4) + (encrypted[0][4] == '0' ? '1' : '0') + encrypted[0].Substring(5);
+			string iv2 = "11011";
+			OFB ofb2 = new(key, iv2);
+			decrypted = ofb2.Decrypt(encrypted);
+			WriteLine($"Encrypted message: {string.Join(", ", encrypted)} decrypted with IV: {iv2} is:\n{string.Join(", ", decrypted)}");
 		}
 
 		private static string VigenereCipher(string message, string password)

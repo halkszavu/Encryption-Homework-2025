@@ -36,6 +36,9 @@ namespace Homework02_Calculations
 
 		private static void Task3()
 		{
+			int[] key = { 4, 1, 3, 5, 2 };
+			string iv = "01011";
+			OFB ofb = new(key, iv);
 
 		}
 

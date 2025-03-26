@@ -5,24 +5,39 @@ namespace Homework02_Calculations
 	internal class OFB
 	{
 		private readonly int[] key;
+		private readonly string originalIV;
 		bool[] IV;
 
 		public OFB(int[] key, string iv)
 		{
 			this.key = key;
-			IV = new bool[iv.Length];
-			for(int i = 0; i < iv.Length; i++)
-				IV[i] = iv[i] == '1';
+			originalIV = iv;
+			IV = Convert(iv);
 		}
 
-		public bool[][] Encrypt(bool[][] message)
+		public void Reset()
+		{
+			IV = Convert(originalIV);
+		}
+
+		public string[] Encrypt(string[] message)
 		{
 			bool[][] result = new bool[message.Length][];
 			for(int i = 0; i < message.Length; i++)
 			{
-				result[i] = EncryptOne(message[i]);
+				result[i] = EncryptOne(Convert(message[i]));
 			}
-			return result;
+			return result.Select(Convert).ToArray();
+		}
+
+		public string[] Decrypt(string[] ciphertext)
+		{
+			bool[][] result = new bool[ciphertext.Length][];
+			for(int i = 0; i < ciphertext.Length; i++)
+			{
+				result[i] = EncryptOne(Convert(ciphertext[i]));
+			}
+			return result.Select(Convert).ToArray();
 		}
 
 		bool[] EncryptOne(bool[] message)
@@ -48,6 +63,22 @@ namespace Homework02_Calculations
 			}
 
 			return result.ToArray();
+		}
+
+		private static bool[] Convert(string s)
+		{
+			bool[] result = new bool[s.Length];
+			for(int i = 0; i < s.Length; i++)
+				result[i] = s[i] == '1';
+			return result;
+		}
+
+		private static string Convert(bool[] b)
+		{
+			StringBuilder result = new(b.Length);
+			for(int i = 0; i < b.Length; i++)
+				result.Append(b[i] ? '1' : '0');
+			return result.ToString();
 		}
 
 		private static bool[] XOR(bool[] message, bool[] IV)

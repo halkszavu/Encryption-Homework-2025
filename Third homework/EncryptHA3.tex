@@ -121,138 +121,88 @@
 			before skip=0pt,           % Remove extra space before the box
 			after skip=12pt,            % Remove extra space after the box
 			break at=\textheight       % Break the box at appropriate height]
-			]
-		\noindent\textbf{\Large Cryptographic Recommendations for System Requirements}
+			]	
 		
-		\bigskip
-		\noindent\textbf{\large Data Confidentiality and Integrity in Transmission}
+		\subsection*{Cryptographic Solutions for Security Requirements}
+		Let me provide cryptographic schemes for each of your security requirements while ensuring we use strong primitives resistant to common attacks.
 		
-		\noindent\textbf{Recommended schemes:}
+		\subsubsection*{1. Data Confidentiality and Integrity in Transmission}
+		\textbf{Recommended Schemes:}
 		\begin{itemize}
-			\item \textbf{Confidentiality:} AES-GCM (Advanced Encryption Standard with Galois/Counter Mode)
-			\item \textbf{Integrity:} Inherent in GCM as an authenticated encryption mode
+			\item \textbf{Confidentiality}: AES-GCM (Galois/Counter Mode)
+			\item \textbf{Key Exchange}: Diffie-Hellman for session key establishment
 		\end{itemize}
 		
-		\noindent\textbf{Key length recommendation:} 256 bits
-		
-		\noindent\textbf{Justification:}
+		\textbf{Key Length Recommendations:}
 		\begin{itemize}
-			\item AES-GCM provides both confidentiality and integrity in a single operation, making it efficient
-			\item AES-256 provides a security margin well beyond current cryptanalytic capabilities
-			\item GCM provides authentication tags to verify integrity while also encrypting the data
-			\item For TLS implementation, TLS 1.3 with AES-256-GCM would be ideal
-			\item Alternative: ChaCha20-Poly1305 for environments where AES hardware acceleration is unavailable
+			\item AES: 256-bit keys
+			\item Diffie-Hellman: 2048-bit or 3072-bit parameters
 		\end{itemize}
 		
-		\bigskip
-		\noindent\textbf{\large Data Confidentiality and Integrity at Rest}
+		\textbf{Justification:} AES-GCM provides both encryption (confidentiality) and authentication (integrity) in a single efficient operation. The 256-bit key length for AES offers a strong security margin against brute force attacks. For key exchange, Diffie-Hellman with at least 2048-bit parameters provides sufficient security against computational attacks.
 		
-		\noindent\textbf{Recommended schemes:}
+		\subsubsection*{2. Data Confidentiality and Integrity at Rest}
+		\textbf{Recommended Schemes:}
 		\begin{itemize}
-			\item \textbf{Confidentiality:} AES-XTS for storage encryption
-			\item \textbf{Integrity:} HMAC-SHA-256 stored alongside encrypted data
+			\item \textbf{Encryption}: AES in GCM mode
+			\item \textbf{Key Management}: RSA for key wrapping/storage
 		\end{itemize}
 		
-		\noindent\textbf{Key length recommendations:}
+		\textbf{Key Length Recommendations:}
 		\begin{itemize}
-			\item AES-XTS: 256 bits (effectively using two 256-bit keys)
-			\item HMAC: 256 bits
+			\item AES: 256-bit keys
+			\item RSA: 3072-bit keys
 		\end{itemize}
 		
-		\noindent\textbf{Justification:}
+		\textbf{Justification:} For data at rest, AES-GCM continues to be an excellent choice as it provides both confidentiality and integrity verification. RSA with 3072-bit keys offers comparable security to AES-256 for key management operations. This combination ensures data remains protected even when stored for long periods.
+		
+		\subsubsection*{3. Strong Authentication Mechanisms}
+		\textbf{Recommended Schemes:}
 		\begin{itemize}
-			\item AES-XTS is specifically designed for disk encryption and protects against ciphertext manipulation
-			\item The XTS mode handles sector-based encryption properly, preventing certain attacks
-			\item HMAC-SHA-256 provides strong integrity verification for stored data
-			\item These key lengths provide protection against both classical and quantum attacks (AES-256 offers roughly 128-bit security against quantum attacks)
+			\item \textbf{Digital Signatures}: RSA or ElGamal for entity authentication
+			\item \textbf{Hash Functions}: SHA-256 for password hashing (with appropriate salting)
 		\end{itemize}
 		
-		\bigskip
-		\noindent\textbf{\large Strong Authentication Mechanisms}
-		
-		\noindent\textbf{Recommended schemes:}
+		\textbf{Key Length Recommendations:}
 		\begin{itemize}
-			\item \textbf{User authentication:} Argon2id for password hashing
-			\item \textbf{Service authentication:} TLS mutual authentication with X.509 certificates
-			\item \textbf{API authentication:} HMAC-based tokens or JWT with EdDSA signatures
+			\item RSA: 3072-bit keys
+			\item ElGamal: 3072-bit keys
+			\item SHA-256: 256-bit output
 		\end{itemize}
 		
-		\noindent\textbf{Key length/parameter recommendations:}
+		\textbf{Justification:} Digital signatures using RSA or ElGamal with 3072-bit keys provide strong authentication of users and services. For password-based authentication, SHA-256 combined with proper salting techniques provides resistance against dictionary attacks and rainbow tables.
+		
+		\subsubsection*{4. Resistance to Common Attacks}
+		\textbf{For Side-Channel Attack Resistance:}
 		\begin{itemize}
-			\item Argon2id: Memory cost $\geq$ 64MB, iterations $\geq$ 3, parallelism factor based on hardware
-			\item TLS certificates: 
-			\begin{itemize}
-				\item RSA: 3072 bits
-				\item ECDSA: 256 bits (curve P-256)
-				\item EdDSA: Ed25519 (256 bits)
-			\end{itemize}
-			\item JWT: EdDSA with Ed25519 (256 bits)
+			\item Implement constant-time operations for cryptographic implementations
+			\item Use ChaCha20-Poly1305 as an alternative to AES in environments where side-channel resistance is critical
+			\item Apply blinding techniques for RSA operations
 		\end{itemize}
 		
-		\noindent\textbf{Justification:}
+		\textbf{For Brute Force Attack Resistance:}
 		\begin{itemize}
-			\item Argon2id is the winner of the Password Hashing Competition, resistant to both timing and side-channel attacks
-			\item TLS mutual authentication ensures both server and client verify each other's identities
-			\item EdDSA provides strong performance advantages while maintaining security
-			\item These key sizes provide approximately 128 bits of security, the current standard for long-term protection
+			\item The recommended key lengths (AES-256, RSA-3072, DH-3072) provide sufficient security margins
+			\item Implement rate limiting and account lockout mechanisms
 		\end{itemize}
 		
-		\bigskip
-		\noindent\textbf{\large Resistance to Common Attacks}
-		
-		\noindent\textbf{Side-channel attack resistance:}
+		\textbf{General Recommendations:}
 		\begin{itemize}
-			\item Use constant-time implementations of cryptographic algorithms
-			\item Employ hardware security modules (HSMs) for key operations
-			\item Implement memory zeroization after key usage
+			\item Avoid deprecated algorithms like MD4, MD5, and SHA-1
+			\item Use BLAKE2 instead of older hash functions when possible
+			\item Implement proper key rotation policies
+			\item Use hardware security modules (HSMs) for critical key operations
 		\end{itemize}
 		
-		\noindent\textbf{Brute force attack resistance:}
-		\begin{itemize}
-			\item For key generation: Use cryptographically secure random number generators (CSPRNG)
-			\item For password hashing: Use Argon2id with appropriate memory and time cost parameters
-			\item For session tokens: High-entropy random generation ($\geq$ 256 bits)
-		\end{itemize}
-		
-		\noindent\textbf{Key management recommendations:}
-		\begin{itemize}
-			\item Key rotation policies (e.g., TLS certificates every 1 year, symmetric keys every 90 days)
-			\item Secure key storage using HSMs or secure enclaves
-			\item Implement proper key derivation functions (HKDF) when deriving multiple keys
-		\end{itemize}
-		
-		\bigskip
-		\noindent\textbf{\large Post-Quantum Considerations}
-		
-		\noindent Given the requirements for resistance to future attacks, I recommend planning for post-quantum security:
-		
-		\medskip
-		\noindent\textbf{1. For symmetric encryption:}
-		\begin{itemize}
-			\item Continue using AES-256, which remains quantum-resistant
-		\end{itemize}
-		
-		\noindent\textbf{2. For asymmetric cryptography:}
-		\begin{itemize}
-			\item Begin transition planning to quantum-resistant algorithms:
-			\begin{itemize}
-				\item Consider CRYSTALS-Kyber for key encapsulation (replacing RSA/ECDH)
-				\item Consider CRYSTALS-Dilithium for digital signatures (replacing RSA/ECDSA)
-			\end{itemize}
-			\item Implementation via hybrid approaches during transition
-		\end{itemize}
-		
-		\noindent\textbf{3. For hash functions:}
-		\begin{itemize}
-			\item SHA-256/SHA-3 remain secure against known quantum attacks
-		\end{itemize}
-		
-		\medskip
-		\noindent This approach ensures the system meets current security requirements while providing a pathway to quantum resistance as these algorithms continue to mature and become standardized.
+		The recommended schemes and key lengths provide a security level equivalent to approximately 128-bit symmetric security, which is considered secure against attacks by classical computers for the foreseeable future. For protection against quantum computing threats, consider implementing quantum-resistant algorithms alongside these classical approaches.
 		\end{tcolorbox}
 		
 		\textit{My evaluation:}\\
-		Good.
+		Using AES-GCM for encryption and authentication is correct, and the recommended 256-bit keylength is the highest in the standard, widely regarded as the most secure form of AES. Diffie-Hellman for key exchange is also a common standard, and the recommended keylengh is also sufficient. (For this I used the Federal Office for Information Security's report \cite{bsi} ) \\
+		For \emph{Data Confidentiality and Integrity at Rest} it makes a bit higher recommendation, but overall remains the same. As far as I can tell, it is common practice to encrypt data at rest using AES. It is also sensible to use the same method for both sending and storing the data, as it makes more efficient use of the algorithms.\\
+		The authentication isn't exactly clear, it recommends two options. Both are accepted as good solutions, and are used for this purpose. For the keylength it recommends the maximums from the standards. This is good for future proofing, but might not be necessary at the moment. (Shorter keys can provide similar level of protection.)\\
+		Recommendations for \emph{Resistance to Common Attacks} are the usual recommendations that can be found on most places. I would note that it is interesting that it both states that \textit{AES-256, RSA-3072, DH-3072 provide sufficient security margins} and then recommends to still implement more defensive mechanisms. (I would implement those mechanisms however.)\\
+		It brings up MD4, MD5 and SHA-1 most likely because I prepared the model with the list of encryption standards we learned at class.
 	\end{enumerate}
 	
 	\printbibliography

@@ -45,10 +45,75 @@
 		\item \textbf{Attack on RSA encryption}\\
 		We have two captured ciphertexts of the same message:
 		\begin{align*}
-			m & & & m\\
+			m & & m &\\
 			c_1 &= 7 & c_2 &= 16\\
 			pk_1 &= (3, 57) & pk_2 &= (5,57)
+			\intertext{Writing up the messages:}
+			7 &= m^3 \mod 57 & 16 &= m^5 \mod 57
 		\end{align*}
+		We can notice that the base for both systems are the same. Thus we can use the Chinese Remainder Theorem to make breaking the message, using the fact that $57 = 3 \cdot 19$, where both factors are prime. First find $m$ in both remainders:
+		\begin{enumerate}
+			\item[Mod 3]
+			\begin{align*}
+				7 &= m^3 \mod 3 &\rightarrow 1 &= m^3 \mod 3\\
+				16 &= m^5 \mod 3  &\rightarrow 1 &= m^3 \mod 3
+			\end{align*}
+			Then check the potential values:
+			\begin{table}[h]
+				\centering
+				\begin{tabular}{r|r|r}
+					\textbf{$m$} & \textbf{$m^3$} & \textbf{$m^5$} \\ \hline
+					0 & 0 & 0 \\ 
+					1 & 1 & 1 \\ 
+					2 & 2 & 2 \\ 
+				\end{tabular}
+			\end{table}
+			Thus we get $m=1 \mod 3$.
+			\item[Mod 19]
+			\begin{align*}
+				7 &= m^3 \mod 19 &\rightarrow 7 &= m^3 \mod 19\\
+				16 &= m^5 \mod 19  &\rightarrow 16 &= m^3 \mod 19
+			\end{align*}
+			Then check the potential values:
+			\begin{table}[h]
+				\centering
+				\begin{tabular}{r|r|r}
+					\textbf{$m$} & \textbf{$m^3$} & \textbf{$m^5$} \\ \hline
+					0 & 0 & 0 \\ 
+					1 & 1 &  \\ 
+					2 & 8 &  \\ 
+					3 & 8 &  \\ 
+					4 & \emph{7} & 17 \\ 
+					5 & 11 &  \\ 
+					6 & \emph{7} & 5 \\ 
+					7 & 1 &  \\ 
+					8 & 18 &  \\ 
+					9 & \emph{7} & 16 \\ 
+					10 & 12 &  \\ 
+					11 & 1 &  \\ 
+					12 & 18 &  \\ 
+					12 & 12 &  \\ 
+					14 & 8 &  \\ 
+					15 & 12 &  \\ 
+					16 & 11 &  \\ 
+					17 & 11 &  \\ 
+					18 & 18 &  \\ 
+				\end{tabular}
+			\end{table} \\
+			I only calculated those that are of interest for the $m^5$ column. We can see, that the result is $m = 9 \mod 19$
+		\end{enumerate}
+		Combining the results we get:
+		\begin{gather*}
+			m = 1 \mod 3 \\
+			m = 9 \mod 19 \rightarrow m = 19k + 9 \\
+			\text{Rewriting it to $\mod 3$:} \\
+			19k + 9 = 1 \mod 3 \rightarrow 1k + 0 = 1 \mod 3 \\
+			k = 1 \mod 3 \\
+			k = 3t + 1 \\
+			\text{Writing the result back to $m$:} \\
+			m = 19k + 9 = 19(3t + 1) + 9 = 57t + 28
+		\end{gather*}
+		Thus we arrive to $m = 28$. (We have $\mod 57$, so the $t$ part can be ignored.)
 		\item \textbf{Choosing cryptographic primitives}\\
 		For this task, I used Claude's Sonnet model.\cite{claude3} This is the result:\\
 		\begin{tcolorbox}[ 

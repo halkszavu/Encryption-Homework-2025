@@ -1,6 +1,9 @@
 \documentclass{article}
 
 \usepackage{homework}
+\usepackage[breakable]{tcolorbox}
+
+\addbibresource{references.bib}
 
 \course{Encryption}
 \assignment{Homework 3}
@@ -14,10 +17,178 @@
 		My advice based on this paper alone would be to keep using the already existing encryption system.
 		\item \textbf{Security definitions}\\
 		%What is the IND-OT-CPA? The adversary knows the public key(pk, n), sends a pair of messages m1 and m2, and gets one ciphertext back. Then he has to get which message was encrypted.
-		
+		Adversary can send $n$ as one message ($m_1$), whereas the other message ($m_2$) should not be divisible by $n$. This way, if the ciphertext is $0$, they can know, that $m_1$ was encrypted. This is due to the fact that remainders do not change with exponentiation.
 		\item \textbf{ElGamal encryption}
-		\item \textbf{Attack on RSA encryption}
-		\item \textbf{Choosing cryptographic primitives}
+			\begin{align*}
+				Enc(pk, m): &\\
+				y \leftarrow & {1, \ldots , q-1}\\
+				s = & h^y \in \mathbb{G}\\
+				E(pk, m) = & (c_1, c_2) = (g^y, m \cdot s) \in \mathbb{G} \times \mathbb{G}
+			\end{align*}
+		\begin{enumerate}[label=\textit{Part \roman*}]
+			\item Create a re-randomized version of ElGamal:
+			\begin{align*}
+				y' \leftarrow & {1, \ldots , q-1} \quad \text{We generate a new randomness}\\
+				s' = & h^{y'} \in \mathbb{G}\\
+				\intertext{Then using the new randomness, we re-randomize the original message:}\\
+				(c_{1}\prime, c_{2}\prime) = & (g^y \cdot g^{y'}, m \cdot h^y \cdot h^{y'}) = (g^{y+y'}, m \cdot h^{y+y'})
+			\end{align*}
+			Note that the new randomness is added on to the original one. 
+			\item We can use the method previously described to create a new $c'$ with different randomness, that is valid under the same ElGamal scheme. Then we can give this new $c'$ to decrypt, and we will get back the original message, as it was not altered (only the randomness was changed).
+			\item With $c_{11} = c_{12}$ we can deduce that the same randomness ($y$) was chosen, because $c_11 = g^y$, where $g$ is fixed for the scheme. Thus we can write the ciphertexts quotient as:
+			\[ \frac{c_{21}}{c_{22}} = \frac{m_1 \cdot h^y}{m_2 \cdot h^y} = \frac{m_1}{m2} \]
+			This way we know the ratio of the two messages, but we can't know their exact value.
+			\item ElGamal's homomorphic property:\\
+			\textit{Useful:} In electronic voting schemes. To tally the votes one can multiply the messages together to get a count of the votes. (For this application one needs to choose primes as message values.) \\
+			\textit{Violates the security:} Messaging over insecure channel. An outsider can capture and forge new (potentially meaningful) messages without decryption.
+		\end{enumerate}
+		\item \textbf{Attack on RSA encryption}\\
+		We have two captured ciphertexts of the same message:
+		\begin{align*}
+			m & & & m\\
+			c_1 &= 7 & c_2 &= 16\\
+			pk_1 &= (3, 57) & pk_2 &= (5,57)
+		\end{align*}
+		\item \textbf{Choosing cryptographic primitives}\\
+		For this task, I used Claude's Sonnet model.\cite{claude3} This is the result:\\
+		\begin{tcolorbox}[ 
+			breakable,
+			before skip=0pt,           % Remove extra space before the box
+			after skip=12pt,            % Remove extra space after the box
+			break at=\textheight       % Break the box at appropriate height]
+			]
+		\noindent\textbf{\Large Cryptographic Recommendations for System Requirements}
+		
+		\bigskip
+		\noindent\textbf{\large Data Confidentiality and Integrity in Transmission}
+		
+		\noindent\textbf{Recommended schemes:}
+		\begin{itemize}
+			\item \textbf{Confidentiality:} AES-GCM (Advanced Encryption Standard with Galois/Counter Mode)
+			\item \textbf{Integrity:} Inherent in GCM as an authenticated encryption mode
+		\end{itemize}
+		
+		\noindent\textbf{Key length recommendation:} 256 bits
+		
+		\noindent\textbf{Justification:}
+		\begin{itemize}
+			\item AES-GCM provides both confidentiality and integrity in a single operation, making it efficient
+			\item AES-256 provides a security margin well beyond current cryptanalytic capabilities
+			\item GCM provides authentication tags to verify integrity while also encrypting the data
+			\item For TLS implementation, TLS 1.3 with AES-256-GCM would be ideal
+			\item Alternative: ChaCha20-Poly1305 for environments where AES hardware acceleration is unavailable
+		\end{itemize}
+		
+		\bigskip
+		\noindent\textbf{\large Data Confidentiality and Integrity at Rest}
+		
+		\noindent\textbf{Recommended schemes:}
+		\begin{itemize}
+			\item \textbf{Confidentiality:} AES-XTS for storage encryption
+			\item \textbf{Integrity:} HMAC-SHA-256 stored alongside encrypted data
+		\end{itemize}
+		
+		\noindent\textbf{Key length recommendations:}
+		\begin{itemize}
+			\item AES-XTS: 256 bits (effectively using two 256-bit keys)
+			\item HMAC: 256 bits
+		\end{itemize}
+		
+		\noindent\textbf{Justification:}
+		\begin{itemize}
+			\item AES-XTS is specifically designed for disk encryption and protects against ciphertext manipulation
+			\item The XTS mode handles sector-based encryption properly, preventing certain attacks
+			\item HMAC-SHA-256 provides strong integrity verification for stored data
+			\item These key lengths provide protection against both classical and quantum attacks (AES-256 offers roughly 128-bit security against quantum attacks)
+		\end{itemize}
+		
+		\bigskip
+		\noindent\textbf{\large Strong Authentication Mechanisms}
+		
+		\noindent\textbf{Recommended schemes:}
+		\begin{itemize}
+			\item \textbf{User authentication:} Argon2id for password hashing
+			\item \textbf{Service authentication:} TLS mutual authentication with X.509 certificates
+			\item \textbf{API authentication:} HMAC-based tokens or JWT with EdDSA signatures
+		\end{itemize}
+		
+		\noindent\textbf{Key length/parameter recommendations:}
+		\begin{itemize}
+			\item Argon2id: Memory cost $\geq$ 64MB, iterations $\geq$ 3, parallelism factor based on hardware
+			\item TLS certificates: 
+			\begin{itemize}
+				\item RSA: 3072 bits
+				\item ECDSA: 256 bits (curve P-256)
+				\item EdDSA: Ed25519 (256 bits)
+			\end{itemize}
+			\item JWT: EdDSA with Ed25519 (256 bits)
+		\end{itemize}
+		
+		\noindent\textbf{Justification:}
+		\begin{itemize}
+			\item Argon2id is the winner of the Password Hashing Competition, resistant to both timing and side-channel attacks
+			\item TLS mutual authentication ensures both server and client verify each other's identities
+			\item EdDSA provides strong performance advantages while maintaining security
+			\item These key sizes provide approximately 128 bits of security, the current standard for long-term protection
+		\end{itemize}
+		
+		\bigskip
+		\noindent\textbf{\large Resistance to Common Attacks}
+		
+		\noindent\textbf{Side-channel attack resistance:}
+		\begin{itemize}
+			\item Use constant-time implementations of cryptographic algorithms
+			\item Employ hardware security modules (HSMs) for key operations
+			\item Implement memory zeroization after key usage
+		\end{itemize}
+		
+		\noindent\textbf{Brute force attack resistance:}
+		\begin{itemize}
+			\item For key generation: Use cryptographically secure random number generators (CSPRNG)
+			\item For password hashing: Use Argon2id with appropriate memory and time cost parameters
+			\item For session tokens: High-entropy random generation ($\geq$ 256 bits)
+		\end{itemize}
+		
+		\noindent\textbf{Key management recommendations:}
+		\begin{itemize}
+			\item Key rotation policies (e.g., TLS certificates every 1 year, symmetric keys every 90 days)
+			\item Secure key storage using HSMs or secure enclaves
+			\item Implement proper key derivation functions (HKDF) when deriving multiple keys
+		\end{itemize}
+		
+		\bigskip
+		\noindent\textbf{\large Post-Quantum Considerations}
+		
+		\noindent Given the requirements for resistance to future attacks, I recommend planning for post-quantum security:
+		
+		\medskip
+		\noindent\textbf{1. For symmetric encryption:}
+		\begin{itemize}
+			\item Continue using AES-256, which remains quantum-resistant
+		\end{itemize}
+		
+		\noindent\textbf{2. For asymmetric cryptography:}
+		\begin{itemize}
+			\item Begin transition planning to quantum-resistant algorithms:
+			\begin{itemize}
+				\item Consider CRYSTALS-Kyber for key encapsulation (replacing RSA/ECDH)
+				\item Consider CRYSTALS-Dilithium for digital signatures (replacing RSA/ECDSA)
+			\end{itemize}
+			\item Implementation via hybrid approaches during transition
+		\end{itemize}
+		
+		\noindent\textbf{3. For hash functions:}
+		\begin{itemize}
+			\item SHA-256/SHA-3 remain secure against known quantum attacks
+		\end{itemize}
+		
+		\medskip
+		\noindent This approach ensures the system meets current security requirements while providing a pathway to quantum resistance as these algorithms continue to mature and become standardized.
+		\end{tcolorbox}
+		
+		\textit{My evaluation:}\\
+		Good.
 	\end{enumerate}
 	
+	\printbibliography
 \end{document}

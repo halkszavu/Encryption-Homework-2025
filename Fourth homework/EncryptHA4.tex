@@ -22,13 +22,13 @@
 		In the issuing protocol there is no mechanism for signing the request. In the presentation protocol, the PR sends its ID with a signature, and checks the receiving request with decrypting and checking if the resulting plaintext is "meaningful". However, meaningful data is not guaranteed with many personal data, such as names, addresses, etc.
 		
 		\item\textbf{The system must ensure that e-ID that was not created by the issuer does not pass verification by the RP}\\
-		This does not hold. There is no check specified in the documentation for the RP to filter out, at any point requests, that are not authenticated by the issuer.
+		This does not hold. There is no check specified in the documentation for the RP to filter out, at any point requests, that are not authenticated by the issuer. One can create an e-ID, and send it to RP without communicating with the issuing party, and this request would be validated, and then the forger would be authenticated as an honest user.
 		
 		\item\textbf{The system must ensure post-quantum security for all the components }\\
 		The paper lists different encryption and signature schemes, which it recommends to use, but only two of the presented are considered post-quantum: SHA3 and LUOV. Moreover, the presentation protocol uses ECDSA, which is not considered suitable for post-quantum (as it uses a discrete logarithm problem, which can be broken with a quantum-computer).
 		
 		\item\textbf{The system must use standardised cryptographic algorithms}\\
-		This requirement is met. The paper does not introduce new cryptographic algorithms, which is laudable. However some of the described standardised cryptographic algorithms are outdated, or advised against.
+		This requirement is met. The paper does not introduce new cryptographic algorithms, which is laudable. However some of the described standardised cryptographic algorithms are outdated, or advised against. (Specifically DES \cite{nist2005deswithdrawal})
 		
 		\item\textbf{The system must ensure that attackers getting access to the user’s device are not able present honest user’s credential to the RP}\\
 		There is no mechanism specified in the document, that can ensure this requirement. It is easy to create a PIN-locked application for this purpose, but there is no mention at all in the paper on this.
